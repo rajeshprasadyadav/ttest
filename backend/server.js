@@ -52,12 +52,21 @@ const GRANT_TYPE="client_credentials";
 const TOKEN_URL = "https://login.microsoftonline.com/"+TENANT_ID+"/oauth2/v2.0/token";
 
 /**
- * 
+ * @@@ End point for getting Meeting URL
+ * Once we have access_token we can hit this endpoint
+ * Header : (bearer token),
+ * Body : json-raw
  */
 const JOIN_LINK_URL="https://graph.microsoft.com/v1.0/users/"+OBJECT_ID+"/calendar/events";
 
 let token="";
 
+
+/**
+ * @@@ Get Token 
+ * I/P : None
+ * O/P : Promise with token resolve/reject dependency
+ */
 async function getToken(){
     try{
     return await axios.post(TOKEN_URL,
@@ -76,6 +85,15 @@ async function getToken(){
         console.log(err);
     }
 }
+/**
+ * @@@ Get JoinWebLink 
+ * I/P : access_token | string
+ *     : params       | Object
+ * 
+ * O/P : Promise with Microsoft response resolve/reject dependency
+ * 
+ */
+
 async function getJoinLink(token,params){
     try{
         return await axios.post(
@@ -118,13 +136,15 @@ async function getJoinLink(token,params){
             }
         )
     }catch(err){
-        console.log("axios error ++++++++++");
         console.log(err);
     }
 
 }
 
 
+/**
+ * @@@ End point exposed by express to get join Web Link
+ */
 app.post('/getMeetingLink',(req,res)=>{
    getToken()
     .then(tokenResponse=>{
