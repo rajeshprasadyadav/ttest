@@ -74,7 +74,36 @@ async function getJoinLink(req){
         method:'post',
         url:JOIN_LINK_URL,
         data:{
-            
+            subject: "Let's go for lunch",
+            body: {
+                contentType: "HTML",
+                content: "Does noon work for you?"
+            },
+            start: {
+                dateTime: "2020-10-20T19:00:00",
+                timeZone: "Asia/Kolkata"
+                },
+            end: {
+                dateTime: "2020-10-20T19:45:00",
+                timeZone: "Asia/Kolkata"
+            },
+            location:{
+                displayName:"Coaching Session"
+            },
+            attendees: [
+                    {
+                    emailAddress: {
+                        address :"rajeshy@ispace.com",
+                        name: "Rajesh"
+                    },
+                    type: "required"
+                    }
+                ],
+            allowNewTimeProposals: true,
+            isOnlineMeeting: true,
+            onlineMeetingProvider: "teamsForBusiness"
+                
+                 
         }
     })
 }
