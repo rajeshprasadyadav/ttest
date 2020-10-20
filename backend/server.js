@@ -71,6 +71,54 @@ async function getToken(){
 }
 async function getJoinLink(token){
     try{
+        //token = "Bearer "+token;
+        console.log(token );
+        console.log(JOIN_LINK_URL);
+        return await axios.post(
+            JOIN_LINK_URL,
+            {
+                "subject":"Some subject",
+                "body": {
+                    "contentType": "HTML",
+                    "content": "Does noon work for you?"
+                },
+                "start": {
+                    "dateTime": "2020-10-20T19:00:00",
+                    "timeZone": "Asia/Kolkata"
+                },
+                "end": {
+                    "dateTime": "2020-10-20T19:45:00",
+                    "timeZone": "Asia/Kolkata"
+                },
+                "location":{
+                    "displayName":"Coaching Session"
+                },
+                "attendees": [
+                    {
+                    "emailAddress": {
+                    "address" :"rajeshy@ispace.com",
+                    "name": "Rajesh"
+                    },
+                    "type": "required"
+                }
+                ],
+                "allowNewTimeProposals": true,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness"
+            },
+                {
+                    headers:{
+                        'Authorization':"Bearer "+token,
+                        'Content-Type':'application/json'
+                }
+            }
+        )
+    }catch(err){
+        console.log("axios error ++++++++++");
+        console.log(err);
+    }
+
+    /*try{
         return await axios.post(JOIN_LINK_URL,{subject: "Let's go for lunch",
         body: {
             contentType: "HTML",
@@ -106,7 +154,7 @@ async function getJoinLink(token){
     }})
     }catch(err){
         console.log(err);
-    }
+    }*/
     
     
     
@@ -132,9 +180,15 @@ app.get('/getMeetingLink',(req,res)=>{
             token = res.data.access_token;
             //console.log(token);
             getJoinLink(token).then(res=>{
-                if(res.status===200){
-                    console.log(res);                  
+                if(res.status===201){
+                    console.log('Created Succesfully');
                 }
+                console.log("============ Response ============")
+                console.log(res);
+                console.log("============ Response end================");
+            }).catch(err=>{
+                console.log("Request error =============");
+                console.log(err)
             })
         }
     })
