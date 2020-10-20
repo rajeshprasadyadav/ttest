@@ -102,8 +102,10 @@ async function getJoinLink(req){
             allowNewTimeProposals: true,
             isOnlineMeeting: true,
             onlineMeetingProvider: "teamsForBusiness"
-                
-                 
+        },
+        headers:{
+            'Authorization':'Bearer '+token,
+            'Content-Type':'application/json'
         }
     })
 }
@@ -122,18 +124,18 @@ const tokenRequestHeader = {
 
 
 app.get('/getMeetingLink',(req,res)=>{
-    /*getToken()
+    getToken()
     .then(res=>{
         if(res.status===200){
             token = res.data.access_token;
             getJoinLink(token).then(res=>{
                 if(res.status===200){
-                    
+                    console.log(res);                  
                 }
             })
         }
-    })*/
-   getJoinLink(req);
+    })
+  
    
 }
 )
