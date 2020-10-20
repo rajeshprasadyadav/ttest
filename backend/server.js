@@ -40,8 +40,12 @@ const SCOPE = "https://graph.microsoft.com/.default";
 const OBJECT_ID="890d2bbc-5097-4688-97c4-742b5ebb5dcc"
 let token="";
 
-function getToken(){
-    
+async function getToken(){
+    try{
+    return await axios.get("https://jsonplaceholder.typicode.com/users")
+    }catch(err){
+        console.log(err);
+    }
 }
 
 
@@ -55,8 +59,10 @@ const tokenRequestHeader = {
     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
 }
 
+
+
 app.get('/getMeetingLink',(req,res)=>{
-    axios.post(TOKEN_URL,
+    /*axios.post(TOKEN_URL,
         { client_id:APP_ID,
             scope:SCOPE,
             client_secret:SECRET,
@@ -68,7 +74,7 @@ app.get('/getMeetingLink',(req,res)=>{
         }
         ).then(result=>{
             console.log(result)
-        });
+        });*/
 }
 )
 
