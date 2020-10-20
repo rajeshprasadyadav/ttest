@@ -27,6 +27,11 @@ const SCOPE = "https://graph.microsoft.com/.default";
 
  const GRANT_TYPE="client_credentials";
 
+ /**
+  *  Token URL 
+  */
+
+  const TOKEN_URL = "https://login.microsoftonline.com/"+TENANT_ID+"/oauth2/v2.0/token";
 
 /**
  * OBJECT_ID can be any user who is in application active direcory
@@ -51,9 +56,25 @@ const tokenRequestHeader = {
 }
 
 app.get('/getMeetingLink',(req,res)=>{
-    axios.post();
+    axios.post(TOKEN_URL,
+        { client_id:APP_ID,
+            scope:SCOPE,
+            client_secret:SECRET,
+            grant_type:GRANT_TYPE
+        },{
+            headers:{
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }
+        ).then(result=>{
+            console.log(result)
+        });
 }
 )
+
+app.get("/test",(req,res)=>{
+    res.status(200).json({"message":"request successfull"});
+})
 
 app.listen(8000,()=>{
     console.log("Server started on port 8000")
