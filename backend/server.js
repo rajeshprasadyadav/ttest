@@ -132,14 +132,15 @@ const tokenRequestHeader = {
 
 app.get('/getMeetingLink',(req,res)=>{
     getToken()
-    .then(res=>{
-        if(res.status===200){
-            token = res.data.access_token;
+    .then(tokenResponse=>{
+        if(tokenResponse.status===200){
+            token = tokenResponse.data.access_token;
             //console.log(token);
-            getJoinLink(token).then(res=>{
-                if(res.status===201){
-                    res.status(201).send(res.data);
+            getJoinLink(token).then(meetingResponse=>{
+                if(meetingResponse.status===201){
+                    res.status(201).send(meetingResponse.data);
                     console.log('Created Succesfully');
+                    
                 }else if(res.status===401){
                    
                 }
