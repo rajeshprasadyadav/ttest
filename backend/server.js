@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const app = express();
 const qs = require('qs');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 /**
@@ -59,7 +59,7 @@ const TOKEN_URL = "https://login.microsoftonline.com/"+TENANT_ID+"/oauth2/v2.0/t
  */
 const JOIN_LINK_URL="https://graph.microsoft.com/v1.0/users/"+OBJECT_ID+"/calendar/events";
 
-let token="";
+let token="Bearer ";
 
 
 /**
@@ -128,9 +128,9 @@ async function getJoinLink(token,params){
                 "isOnlineMeeting": true,
                 "onlineMeetingProvider": "teamsForBusiness"
             },
-                {
-                    headers:{
-                        'Authorization':"Bearer "+token,
+            {
+                headers:{
+                        'Authorization':token,
                         'Content-Type':'application/json'
                 }
             }
@@ -149,7 +149,7 @@ app.post('/getMeetingLink',(req,res)=>{
    getToken()
     .then(tokenResponse=>{
         if(tokenResponse.status===200){
-            token = tokenResponse.data.access_token;
+            token+=tokenResponse.data.access_token;
             let params = {
                 subject:req.body.subject,
                 startDateAndTime:req.body.startDateAndTime,
