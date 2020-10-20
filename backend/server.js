@@ -71,47 +71,44 @@ async function getToken(){
 }
 async function getJoinLink(token){
     try{
-        return await axios({
-            method:'post',
-            url:JOIN_LINK_URL,
-            data:{
-                subject: "Let's go for lunch",
-                body: {
-                    contentType: "HTML",
-                    content: "Does noon work for you?"
-                },
-                start: {
-                    dateTime: "2020-10-20T19:00:00",
-                    timeZone: "Asia/Kolkata"
-                    },
-                end: {
-                    dateTime: "2020-10-20T19:45:00",
-                    timeZone: "Asia/Kolkata"
-                },
-                location:{
-                    displayName:"Coaching Session"
-                },
-                attendees: [
-                        {
-                        emailAddress: {
-                            address :"rajeshy@ispace.com",
-                            name: "Rajesh"
-                        },
-                        type: "required"
-                        }
-                    ],
-                allowNewTimeProposals: true,
-                isOnlineMeeting: true,
-                onlineMeetingProvider: "teamsForBusiness"
+        return await axios.post(JOIN_LINK_URL,{subject: "Let's go for lunch",
+        body: {
+            contentType: "HTML",
+            content: "Does noon work for you?"
+        },
+        start: {
+            dateTime: "2020-10-20T19:00:00",
+            timeZone: "Asia/Kolkata"
             },
-            headers:{
-                'Authorization':'Bearer '+token,
-                'Content-Type':'application/json'
-            }
-        })
-    }catch(error){
-        console.log(error);
+        end: {
+            dateTime: "2020-10-20T19:45:00",
+            timeZone: "Asia/Kolkata"
+        },
+        location:{
+            displayName:"Coaching Session"
+        },
+        attendees: [
+                {
+                emailAddress: {
+                    address :"rajeshy@ispace.com",
+                    name: "Rajesh"
+                },
+                type: "required"
+                }
+            ],
+        allowNewTimeProposals: true,
+        isOnlineMeeting: true,
+        onlineMeetingProvider: "teamsForBusiness"
+            
+    },{headers:{
+        'Authorization':'Bearer '+token,
+        'Content-Type':'application/json'
+    }})
+    }catch(err){
+        console.log(err);
     }
+    
+    
     
 }
 
