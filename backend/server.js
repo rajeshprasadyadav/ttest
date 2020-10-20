@@ -44,10 +44,10 @@ const OBJECT_ID="890d2bbc-5097-4688-97c4-742b5ebb5dcc";
   const TOKEN_URL = "https://login.microsoftonline.com/"+TENANT_ID+"/oauth2/v2.0/token";
 
   /**
-   * Web Link URL
+   * JOIN Link URL
    */
 
-   const WEB_URL="https://graph.microsoft.com/v1.0/users/890d2bbc-5097-4688-97c4-742b5ebb5dcc/calendar/events"
+   const JOIN_LINK_URL="https://graph.microsoft.com/v1.0/users/"+OBJECT_ID+"/calendar/events";
 
 let token="";
 
@@ -70,7 +70,13 @@ async function getToken(){
     }
 }
 async function getJoinLink(req){
-    return await axios()
+    return await axios({
+        method:'post',
+        url:JOIN_LINK_URL,
+        data:{
+            
+        }
+    })
 }
 
 
