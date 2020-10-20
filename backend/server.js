@@ -42,7 +42,18 @@ let token="";
 
 async function getToken(){
     try{
-    return await axios.get("https://jsonplaceholder.typicode.com/users")
+    return await axios.post(TOKEN_URL,
+        qs.stringify({
+            'client_id':APP_ID,
+            'scope':SCOPE,
+            'client_secret':SECRET,
+            'grant_type':GRANT_TYPE
+        }),{
+            headers:{
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }
+        )
     }catch(err){
         console.log(err);
     }
@@ -62,19 +73,14 @@ const tokenRequestHeader = {
 
 
 app.get('/getMeetingLink',(req,res)=>{
-    /*axios.post(TOKEN_URL,
-        { client_id:APP_ID,
-            scope:SCOPE,
-            client_secret:SECRET,
-            grant_type:GRANT_TYPE
-        },{
-            headers:{
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+    getToken()
+    .then(res=>{
+        if(res.status===200){
+            console.log(res.data.access_token);
         }
-        ).then(result=>{
-            console.log(result)
-        });*/
+    })
+   
+   
 }
 )
 
