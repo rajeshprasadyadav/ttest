@@ -119,25 +119,11 @@ async function getJoinLink(token,params){
 }
 
 
-const tokenRequestBody=qs.stringify({
-    client_id:APP_ID,
-    scope:SCOPE,
-    client_secret:SECRET,
-    grant_type:GRANT_TYPE
-})
-const tokenRequestHeader = {
-    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-}
-
-
-
 app.post('/getMeetingLink',(req,res)=>{
-   // console.log(req.body);
-    getToken()
+   getToken()
     .then(tokenResponse=>{
         if(tokenResponse.status===200){
             token = tokenResponse.data.access_token;
-            //console.log(token);
             let params = {
                 subject:req.body.subject,
                 startDateAndTime:req.body.startDateAndTime,
@@ -152,7 +138,7 @@ app.post('/getMeetingLink',(req,res)=>{
                     console.log('Created Succesfully');
                     
                 }else if(res.status===401){
-                    res.status(401).json({'error:au'})
+                    res.status(401).json({error:"Unauthorized request"})
                 }
 
                
