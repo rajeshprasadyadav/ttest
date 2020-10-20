@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const qs = require('qs');
 const axios = require('axios');
+const bodyParser = require('body-parser');
 /**
  * APP ID === Client Id
  */
@@ -20,6 +21,15 @@ const SECRET="TM1NA9Oy7FmvLje~.Wl0FavyRO1_-m0..l";
  */
 const SCOPE = "https://graph.microsoft.com/.default";
 
+
+
+/**
+ * OBJECT_ID can be any user who is in application active direcory
+ * It is basically an User wpplication will create an online event on behalf of that.
+ * 
+ */
+const OBJECT_ID="890d2bbc-5097-4688-97c4-742b5ebb5dcc";
+
 /**
  * 
  * Const througout
@@ -33,11 +43,12 @@ const SCOPE = "https://graph.microsoft.com/.default";
 
   const TOKEN_URL = "https://login.microsoftonline.com/"+TENANT_ID+"/oauth2/v2.0/token";
 
-/**
- * OBJECT_ID can be any user who is in application active direcory
- * 
- */
-const OBJECT_ID="890d2bbc-5097-4688-97c4-742b5ebb5dcc"
+  /**
+   * Web Link URL
+   */
+
+   const WEB_URL="https://graph.microsoft.com/v1.0/users/890d2bbc-5097-4688-97c4-742b5ebb5dcc/calendar/events"
+
 let token="";
 
 async function getToken(){
@@ -58,6 +69,9 @@ async function getToken(){
         console.log(err);
     }
 }
+async function getJoinLink(req){
+    return await axios()
+}
 
 
 const tokenRequestBody=qs.stringify({
@@ -73,13 +87,18 @@ const tokenRequestHeader = {
 
 
 app.get('/getMeetingLink',(req,res)=>{
-    getToken()
+    /*getToken()
     .then(res=>{
         if(res.status===200){
-            console.log(res.data.access_token);
+            token = res.data.access_token;
+            getJoinLink(token).then(res=>{
+                if(res.status===200){
+                    
+                }
+            })
         }
-    })
-   
+    })*/
+   getJoinLink(req);
    
 }
 )
