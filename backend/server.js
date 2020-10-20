@@ -4,6 +4,7 @@ const app = express();
 const qs = require('qs');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
 /**
  * APP ID === Client Id
  */
@@ -69,23 +70,23 @@ async function getToken(){
         console.log(err);
     }
 }
-async function getJoinLink(token){
+async function getJoinLink(token,params){
     try{
         return await axios.post(
             JOIN_LINK_URL,
             {
-                "subject":"Some subject",
+                "subject":params.subject,
                 "body": {
                     "contentType": "HTML",
                     "content": "Does noon work for you?"
                 },
                 "start": {
-                    "dateTime": "2020-10-20T19:00:00",
-                    "timeZone": "Asia/Kolkata"
+                    "dateTime": params.startDateAndTime,
+                    "timeZone": params.timeZone
                 },
                 "end": {
-                    "dateTime": "2020-10-20T19:45:00",
-                    "timeZone": "Asia/Kolkata"
+                    "dateTime": params.endDateAndTime,
+                    "timeZone": params.timeZone
                 },
                 "location":{
                     "displayName":"Coaching Session"
@@ -93,8 +94,8 @@ async function getJoinLink(token){
                 "attendees": [
                     {
                     "emailAddress": {
-                    "address" :"rajeshy@ispace.com",
-                    "name": "Rajesh"
+                    "address" :params.attendeeEmail,
+                    "name": params.attendeeName
                     },
                     "type": "required"
                 }
@@ -130,19 +131,28 @@ const tokenRequestHeader = {
 
 
 
-app.get('/getMeetingLink',(req,res)=>{
+app.post('/getMeetingLink',(req,res)=>{
+   // console.log(req.body);
     getToken()
     .then(tokenResponse=>{
         if(tokenResponse.status===200){
             token = tokenResponse.data.access_token;
             //console.log(token);
-            getJoinLink(token).then(meetingResponse=>{
+            let params = {
+                subject:req.body.subject,
+                startDateAndTime:req.body.startDateAndTime,
+                endDateAndTime:req.body.endDateAndTime,
+                timeZone:req.body.timeZone,
+                attendeeEmail:req.body.attendeeEmail,
+                attendeeName:req.body.attendeeName
+            }
+            getJoinLink(token,params).then(meetingResponse=>{
                 if(meetingResponse.status===201){
-                    res.status(201).send(meetingResponse.data);
+                    res.status(201).json(meetingResponse.data);
                     console.log('Created Succesfully');
                     
                 }else if(res.status===401){
-                   
+                    res.status(401).json({'error:au'})
                 }
 
                
