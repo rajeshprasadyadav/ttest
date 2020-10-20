@@ -74,7 +74,7 @@ async function getJoinLink(token){
         return await axios({
             method:'post',
             url:JOIN_LINK_URL,
-            data:qs.stringify({
+            data:{
                 subject: "Let's go for lunch",
                 body: {
                     contentType: "HTML",
@@ -103,14 +103,14 @@ async function getJoinLink(token){
                 allowNewTimeProposals: true,
                 isOnlineMeeting: true,
                 onlineMeetingProvider: "teamsForBusiness"
-            }),
+            },
             headers:{
                 'Authorization':'Bearer '+token,
                 'Content-Type':'application/json'
             }
         })
     }catch(error){
-        console.log(err);
+        console.log(error);
     }
     
 }
@@ -133,7 +133,7 @@ app.get('/getMeetingLink',(req,res)=>{
     .then(res=>{
         if(res.status===200){
             token = res.data.access_token;
-            console.log(token);
+            //console.log(token);
             getJoinLink(token).then(res=>{
                 if(res.status===200){
                     console.log(res);                  
