@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const rajesh="Rajesh";
 /**
  * APP ID,Unique for each application, we create in (portal.azure.com);
  * We can co-realte it with each partner/cohort 
